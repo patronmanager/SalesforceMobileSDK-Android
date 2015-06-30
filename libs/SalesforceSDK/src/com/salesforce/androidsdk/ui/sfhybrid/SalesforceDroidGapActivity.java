@@ -447,13 +447,17 @@ public class SalesforceDroidGapActivity extends CordovaActivity {
      * Load remote start page (front-doored)
      */
     public void loadRemoteStartPage() {
-    	assert !bootconfig.isLocal();
-    	String startPage = bootconfig.getStartPage();
-    	Log.i("SalesforceDroidGapActivity.loadRemoteStartPage", "loading: " + startPage);
+	    String startPage = getRemoteStartPage();
+	    Log.i("SalesforceDroidGapActivity.loadRemoteStartPage", "loading: " + startPage);
 		String url = getFrontDoorUrl(startPage, false);
 		loadUrl(url);
     	webAppLoaded = true;
     }
+
+	public String getRemoteStartPage(){
+		assert !bootconfig.isLocal();
+		return bootconfig.getStartPage();
+	}
     
     /**
      * Returns the front-doored URL of a URL passed in.
