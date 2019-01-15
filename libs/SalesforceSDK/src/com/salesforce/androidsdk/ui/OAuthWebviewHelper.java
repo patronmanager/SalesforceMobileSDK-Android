@@ -36,6 +36,7 @@ import java.util.Map;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.AsyncTask;
@@ -330,6 +331,15 @@ public class OAuthWebviewHelper implements KeyChainAliasCallback {
                 else {
                     TokenEndpointResponse tr = new TokenEndpointResponse(params);
                     onAuthFlowComplete(tr);
+                }
+            }  else {
+                // During auth, if the user meanders in to the Privacy documentation we want to kick them
+                // out to the native browser when they happen on a link that takes them away from salesforce.com.
+                // See PMGR-8256 (Google Play Violation)
+                if (!url.matches("^(?i)^https:\\/\\/(.)*\\.salesforce\\.com.*")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    getContext().startActivity(intent);
+                    return true;
                 }
             }
             return isDone;
