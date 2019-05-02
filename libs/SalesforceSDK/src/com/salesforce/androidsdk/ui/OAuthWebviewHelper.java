@@ -336,7 +336,7 @@ public class OAuthWebviewHelper implements KeyChainAliasCallback {
                 // During auth, if the user meanders in to the Privacy documentation we want to kick them
                 // out to the native browser when they happen on a link that takes them away from salesforce.com.
                 // See PMGR-8256 (Google Play Violation)
-                if (!url.matches("(?i)https:\\/\\/(.)*\\.salesforce\\.com.*")) {
+                if (!url.matches("(?i)https:\\/\\/(.)*(\\.)?.*force\\.com.*")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     getContext().startActivity(intent);
                     return true;
